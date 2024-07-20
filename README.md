@@ -1,1 +1,1 @@
-# BookAPI-Task-Express-Postgres-Jwt
+# Basic RestApi Project made with Express.js/Postgres
