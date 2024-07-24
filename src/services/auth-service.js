@@ -16,7 +16,7 @@ const loginUser = async (user) => {
   if (!checkPassword) {
     return new ErrorResponse(PASSWORD_INCORRECT)  
   }
-  const token = jwt.sign({ username: checkUser.data.username }, process.env.SECRET_KEY, { expiresIn: '5m' })
+  const token = jwt.sign({ username: checkUser.data.username }, process.env.SECRET_KEY, { expiresIn: '15m' })
   console.log(token)
   const expireDate = new Date()
   expireDate.setMinutes(expireDate.getMinutes() + 5)
