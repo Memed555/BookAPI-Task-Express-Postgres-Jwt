@@ -73,9 +73,15 @@ const addUser = async (user) => {
 }
 const updateUser = async (user) => {
   try {
-    user.password = await bcrypt.hash(user.password, 10)
-    const data = await pool.query('call update_user($1,$2,$3)', [user.id, user.username, user.password])
-    return new userUpdateModelDTO(data)
+    const checkUpdateData = await getUserById(user.id)
+    if (checkUpdateData.status === false) {
+      return new ErrorResponse(DATA_NOT_FOUND)
+    }
+    else {
+      user.password = await bcrypt.hash(user.password, 10)
+      const data = await pool.query('call update_user($1,$2,$3)', [user.id, user.username, user.password])
+      return new userUpdateModelDTO(data)
+    }
   } catch (error) {
     return new ErrorResponse(error.message)
   }

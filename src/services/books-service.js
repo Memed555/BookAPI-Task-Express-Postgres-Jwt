@@ -60,8 +60,14 @@ const addBook = async (book) => {
 }
 const updateBook = async (book) => {
   try {
-    const data = await pool.query('call update_book($1,$2,$3,$4,$5)', [book.id, book.title, book.author, book.published_date, book.isbn])
-    return new bookUpdateDTO(data)
+    const checkUpdateData = await getOneBook(book.id)
+    if (checkUpdateData.status === false) {
+      return new ErrorResponse(DATA_NOT_FOUND)
+    }
+    else {
+      const data = await pool.query('call update_book($1,$2,$3,$4,$5)', [book.id, book.title, book.author, book.published_date, book.isbn])
+      return new bookUpdateDTO(data)
+    }
   } catch (error) {
     return new ErrorResponse(error.message)
   }
