@@ -12,16 +12,16 @@ const loginUser = async (user) => {
   if (checkUser.status === false) {
     return new ErrorResponse(USER_NOT_FOUND)
   }
-  const checkPassword = await bcrypt.compare(user.password, checkUser.data.password)
+  const checkPassword = await bcrypt.compare(user.password, checkUser.data.password);
   if (!checkPassword) {
-    return new ErrorResponse(PASSWORD_INCORRECT)
+    return new ErrorResponse(PASSWORD_INCORRECT)  
   }
   const token = jwt.sign({ username: checkUser.data.username }, process.env.SECRET_KEY, { expiresIn: '5m' })
-
+  console.log(token)
   const expireDate = new Date()
   expireDate.setMinutes(expireDate.getMinutes() + 5)
   const accessToken = new AccesToken(token, expireDate.toString())
   console.log(accessToken)
   return new SuccesResponse(LOGIN_SUCCESSFULLY, accessToken)
 }
-module.exports = {loginUser} 
+module.exports = { loginUser } 
