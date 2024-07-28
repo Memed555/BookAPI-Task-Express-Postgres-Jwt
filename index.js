@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 require('dotenv').config()
 const bookRoutes = require('./src/routes/booksroutes')
@@ -10,9 +11,11 @@ const authMiddleware = require('./src/middlewares/auth-middleware')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+app.use(cors());
+
 const port = process.env.PORT || 3000
 
-app.use('/books', authMiddleware, bookRoutes)
+app.use('/books', bookRoutes)
 app.use('/users', userRotes)
 app.use('/auth', authRoutes)
 
