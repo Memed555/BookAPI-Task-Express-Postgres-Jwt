@@ -19,6 +19,10 @@ app.use('/books', bookRoutes)
 app.use('/users', userRotes)
 app.use('/auth', authRoutes)
 
+app.use('*', (req, res) => {
+  res.send('404 Page not found')
+})
+
 app.listen(port, () => {
   console.log(`Project listening on port : ${port}`)
 })
